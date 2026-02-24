@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Stashbox YouTube Revenue Projection (Paid Subscriber Growth)</title>
+<style>
+:root{
+  --bg:#0b1020; --card:#121a33; --card2:#0f1730; --text:#e9ecff; --muted:#aab2d6;
+  --line:rgba(255,255,255,.10); --accent:#6ea8ff; --good:#38d39f; --warn:#ffcc66;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#070b16 0%, #0b1020 35%, #070b16 100%);color:var(--text);}
+.wrap{max-width:1060px;margin:0 auto;padding:28px 18px 56px;}
+.hdr{padding:22px 22px 18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(110,168,255,.10),rgba(18,26,51,.80));border-radius:18px;}
+.kicker{letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-size:12px;margin:0 0 10px;}
+h1{margin:0 0 10px;font-size:28px;line-height:1.15;}
+.sub{margin:0;color:var(--muted);font-size:14px;line-height:1.5;max-width:78ch;}
+.grid{display:grid;gap:14px;margin-top:16px;grid-template-columns:repeat(3,minmax(0,1fr));}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border-radius:16px;padding:14px 14px 12px;}
+.card .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.10em;margin:0 0 8px;}
+.card .v{font-size:20px;margin:0 0 6px;}
+.card .n{margin:0;color:var(--muted);font-size:12px;line-height:1.45;}
+.section{margin-top:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,26,51,.82),rgba(15,23,48,.78));border-radius:18px;overflow:hidden;}
+.section-h{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;}
+.section-h h2{margin:0;font-size:16px;letter-spacing:.02em;}
+.section-h .note{margin:0;color:var(--muted);font-size:12px;}
+.table-wrap{padding:14px 12px 18px;overflow:auto;}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:780px;}
+th,td{padding:12px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{text-align:left;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;background:rgba(255,255,255,.03);position:sticky;top:0;}
+tr:last-child td{border-bottom:none;}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted);background:rgba(255,255,255,.03);}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);opacity:.9;}
+.badge.good .dot{background:var(--good);}
+.badge.warn .dot{background:var(--warn);}
+.big{font-size:18px;margin:0;}
+.small{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.45;}
+.split{display:grid;gap:14px;grid-template-columns:1.1fr .9fr;padding:14px 18px 18px;}
+ul{margin:0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.55;}
+li{margin:6px 0;}
+.footer{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.55;}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0;}
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr;}
+  .split{grid-template-columns:1fr;}
+  h1{font-size:24px;}
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hdr">
+      <p class="kicker">Investor Bottom Line</p>
+      <h1>Projected Brand Revenue with $3,000 to $6,000 per month in US subscriber-growth ads</h1>
+      <p class="sub">
+        This is a revenue projection for a US-based music + entertainment YouTube brand using consistent paid subscriber acquisition.
+        It reflects the reality that payouts vary by RPM, view velocity, and how well the channel converts attention into sponsorships and merch.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <p class="t">Ad spend</p>
+          <p class="v">$3K to $6K per month</p>
+          <p class="n">Dedicated to subscriber growth in the USA</p>
+        </div>
+        <div class="card">
+          <p class="t">What this outputs</p>
+          <p class="v">Total brand revenue</p>
+          <p class="n">Ads + sponsorships + merch + affiliates + direct brand deals</p>
+        </div>
+        <div class="card">
+          <p class="t">Three scenarios</p>
+          <p class="v">Conservative, Realistic, Aggressive</p>
+          <p class="n">Built to answer “what will it generate” without fluff</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-h">
+        <h2>Revenue Projection by Year</h2>
+        <p class="note">Ranges reflect $3K to $6K monthly ad spend. Numbers are gross revenue.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:110px;">Year</th>
+              <th>Conservative</th>
+              <th>Realistic</th>
+              <th>Aggressive</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><p class='big'>Year 1</p></td><td><span class='badge warn'><span class='dot'></span>Conservative</span><p class='big'>$26,696 to $52,320</p><p class='small'>Lower RPM, slower view velocity, weaker sponsor conversion.</p></td><td><span class='badge good'><span class='dot'></span>Realistic</span><p class='big'>$139,544 to $275,245</p><p class='small'>Typical US RPM band for entertainment, solid uploads, consistent sponsor and merch motion.</p></td><td><span class='badge good'><span class='dot'></span>Aggressive</span><p class='big'>$674,024 to $1,334,352</p><p class='small'>High view velocity, strong sponsor conversion, multiple recurring brand partners.</p></td></tr><tr><td><p class='big'>Year 2</p></td><td><span class='badge warn'><span class='dot'></span>Conservative</span><p class='big'>$75,892 to $150,669</p><p class='small'>Lower RPM, slower view velocity, weaker sponsor conversion.</p></td><td><span class='badge good'><span class='dot'></span>Realistic</span><p class='big'>$423,472 to $842,674</p><p class='small'>Typical US RPM band for entertainment, solid uploads, consistent sponsor and merch motion.</p></td><td><span class='badge good'><span class='dot'></span>Aggressive</span><p class='big'>$2,221,856 to $4,427,447</p><p class='small'>High view velocity, strong sponsor conversion, multiple recurring brand partners.</p></td></tr><tr><td><p class='big'>Year 3</p></td><td><span class='badge warn'><span class='dot'></span>Conservative</span><p class='big'>$119,744 to $238,326</p><p class='small'>Lower RPM, slower view velocity, weaker sponsor conversion.</p></td><td><span class='badge good'><span class='dot'></span>Realistic</span><p class='big'>$722,610 to $1,440,380</p><p class='small'>Typical US RPM band for entertainment, solid uploads, consistent sponsor and merch motion.</p></td><td><span class='badge good'><span class='dot'></span>Aggressive</span><p class='big'>$3,932,285 to $7,845,737</p><p class='small'>High view velocity, strong sponsor conversion, multiple recurring brand partners.</p></td></tr><tr><td><p class='big'>Year 4</p></td><td><span class='badge warn'><span class='dot'></span>Conservative</span><p class='big'>$160,176 to $319,146</p><p class='small'>Lower RPM, slower view velocity, weaker sponsor conversion.</p></td><td><span class='badge good'><span class='dot'></span>Realistic</span><p class='big'>$1,006,227 to $2,007,188</p><p class='small'>Typical US RPM band for entertainment, solid uploads, consistent sponsor and merch motion.</p></td><td><span class='badge good'><span class='dot'></span>Aggressive</span><p class='big'>$5,553,872 to $11,087,198</p><p class='small'>High view velocity, strong sponsor conversion, multiple recurring brand partners.</p></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-h">
+        <h2>Assumptions Used</h2>
+        <p class="note">Simple, explicit inputs. No hand-waving.</p>
+      </div>
+      <div class="split">
+        <div>
+          <ul>
+            <li>Ad spend stays fixed at $3K to $6K per month and is optimized for subscriber growth in the USA.</li>
+            <li>Cost-per-subscriber rises over time as the channel scales and audiences saturate.</li>
+            <li>Views scale with subscriber base. Music channels can see wide variance, so three view-velocity scenarios are shown.</li>
+            <li>Ad RPM ranges align with common creator-reported bands. Shorts RPM stays low by design.</li>
+            <li>Non-ad revenue ramps as audience trust grows. Sponsorships and merch matter more by Years 2 to 4.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="card" style="margin:0;">
+            <p class="t">RPM reference ranges</p>
+            <p class="n">Long-form creator earnings often land around $2 to $10 per 1,000 views, with many creators clustering near $3 to $5.</p>
+            <hr/>
+            <p class="n">Shorts RPM is commonly reported around $0.01 to $0.07 per 1,000 views.</p>
+            <hr/>
+            <p class="n">These ranges drive the revenue bands above. Your real outcome depends on US audience mix, content length, and ad demand.</p>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap" style="padding-top:0;">
+        <p class="footer">
+          Use this as a bottom-line “what will it generate” summary. If you want the next page, I can add a one-box bridge showing how subscriber growth turns into views, and how views turn into ads, sponsors, and merch.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
