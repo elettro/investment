@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Stashbox Investor Projection | Revised Feb 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+:root{
+  --bg:#070C1A;
+  --bg2:#0C1225;
+  --bg3:#111827;
+  --gold:#C9A84C;
+  --gold-l:#E8C97A;
+  --gold-d:#8B6E2A;
+  --white:#F0F4FF;
+  --gray:#5A6580;
+  --gray-l:#9BA8C0;
+  --green:#22C55E;
+  --amber:#F59E0B;
+  --red:#EF4444;
+  --blue:#3B82F6;
+  --teal:#14B8A6;
+  --purple:#A855F7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.35;
+  pointer-events:none;
+  z-index:0;
+}
+.container{
+  max-width:1080px;
+  margin:0 auto;
+  padding:32px 24px 56px;
+  position:relative;
+  z-index:1;
+}
+
+/* top nav */
+.topnav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.06);
+  border-left:3px solid var(--gold);
+  padding:12px 14px;
+}
+.brand-text strong{
+  display:block;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;
+  letter-spacing:2px;
+  line-height:1;
+}
+.brand-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--gold);
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.nav-links{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.nav-links a{
+  text-decoration:none;
+  color:var(--white);
+  border:1px solid rgba(255,255,255,.08);
+  background:var(--bg2);
+  padding:8px 10px;
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.nav-links a.primary{
+  border-color:var(--gold-d);
+  color:var(--gold-l);
+  background:rgba(201,168,76,.08);
+  box-shadow: inset 0 -2px 0 rgba(201,168,76,.65);
+}
+.nav-links a{
+  border-radius:4px 4px 0 0;
+}
+
+/* header block */
+.header{
+  border-left:4px solid var(--gold);
+  padding-left:20px;
+  margin-bottom:20px;
+  animation:fadeUp .5s ease both;
+}
+.brandline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:56px;
+  letter-spacing:8px;
+  line-height:1;
+}
+.brandline span{color:var(--gold)}
+.subtitle{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  letter-spacing:4px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-top:6px;
+}
+.header-desc{
+  font-size:14px;
+  color:var(--gray-l);
+  margin-top:12px;
+  max-width:820px;
+  line-height:1.6;
+}
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,var(--gold) 0%, transparent 100%);
+  margin:22px 0 18px;
+}
+
+/* shared cards */
+.panel{
+  background:var(--bg2);
+  border:1px solid rgba(255,255,255,.06);
+  margin-bottom:16px;
+  animation:fadeUp .55s ease both;
+}
+.panel-h{
+  padding:14px 16px 12px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.panel-kicker{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.panel-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;
+  letter-spacing:2px;
+  line-height:1;
+}
+.panel-desc{
+  margin-top:8px;
+  color:var(--gray-l);
+  font-size:13px;
+  line-height:1.6;
+}
+.panel-b{
+  padding:14px 16px 16px;
+}
+
+/* summary stats */
+.stats4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+.stat{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  padding:12px;
+  border-top:2px solid var(--gold-d);
+}
+.stat .label{
+  color:var(--gray-l);
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.stat .val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;
+  letter-spacing:1px;
+  line-height:1;
+}
+.stat .note{
+  margin-top:6px;
+  color:var(--gray);
+  font-size:11px;
+  line-height:1.45;
+}
+
+/* proof strip */
+.proof-strip{
+  display:grid;
+  grid-template-columns:80px repeat(4,1fr) 1.2fr;
+  gap:6px;
+}
+.proof-label{
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(34,197,94,.22);
+  border-left:3px solid var(--green);
+  background:rgba(34,197,94,.07);
+  padding:10px 6px;
+}
+.proof-label span{
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  color:var(--green);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  text-align:center;
+  line-height:1.5;
+}
+.proof{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  padding:12px;
+}
+.proof.avg{
+  border-color:rgba(201,168,76,.22);
+  background:rgba(201,168,76,.04);
+}
+.proof .video{
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  color:var(--gray);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:6px;
+}
+.proof .main{
+  font-size:11px;color:var(--gray-l);margin-bottom:3px;
+}
+.proof .subs{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:21px;letter-spacing:1px;line-height:1;margin-bottom:4px;
+}
+.proof .cps{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  color:var(--white);
+  margin-bottom:7px;
+}
+.badge{
+  display:inline-block;
+  border:1px solid;
+  padding:3px 6px;
+  border-radius:2px;
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.badge.green{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.07)}
+.badge.amber{color:var(--amber);border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.07)}
+
+.momentum{
+  margin-top:12px;
+  display:flex;
+  align-items:stretch;
+  border:1px solid rgba(255,255,255,.06);
+  border-left:3px solid var(--gold);
+  background:rgba(255,255,255,.015);
+}
+.mom{
+  flex:1;
+  padding:14px 12px;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+.mom:last-child{border-right:none}
+.mom .num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;
+  line-height:1;
+  letter-spacing:1px;
+}
+.mom .txt{
+  margin-top:5px;
+  color:var(--gray-l);
+  font-size:11px;
+  line-height:1.4;
+}
+.arrow{
+  color:var(--gray);
+  display:flex;
+  align-items:center;
+  padding:0 4px;
+}
+
+/* acquisition tier visual */
+.acq{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:14px;
+}
+.acq-left{
+  background:rgba(255,255,255,.015);
+  border:1px solid rgba(255,255,255,.06);
+  padding:14px;
+}
+.acq-meter-top{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+  color:var(--gray-l);
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.acq-meter{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.3fr 1.1fr 1fr 1fr;
+  gap:6px;
+  padding-top:42px;
+}
+.band{
+  min-height:74px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.07);
+}
+.band span{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;
+  line-height:1;
+  letter-spacing:1px;
+}
+.band small{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  color:var(--gray-l);
+}
+.b-poor{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.22)}
+.b-poor span{color:var(--red)}
+.b-avg{background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.22)}
+.b-avg span{color:var(--amber)}
+.b-strong{background:rgba(59,130,246,.07);border-color:rgba(59,130,246,.22)}
+.b-strong span{color:var(--blue)}
+.b-elite{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.28)}
+.b-elite span{color:var(--green)}
+.marker{
+  position:absolute;
+  top:0;
+  left:88%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.marker-tag{
+  margin-bottom:5px;
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  color:var(--green);
+  border:1px solid rgba(34,197,94,.24);
+  background:rgba(34,197,94,.08);
+  padding:4px 6px;
+  line-height:1.35;
+  text-align:center;
+}
+.marker-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 4px rgba(34,197,94,.14), 0 0 16px rgba(34,197,94,.35);
+}
+.marker-line{
+  width:1px;height:28px;background:linear-gradient(180deg,var(--green),rgba(34,197,94,.2));
+}
+.acq-right{
+  display:grid;
+  gap:10px;
+}
+.callout, .mini{
+  background:rgba(255,255,255,.015);
+  border:1px solid rgba(255,255,255,.06);
+  padding:14px;
+}
+.callout{
+  border-left:3px solid var(--gold);
+}
+.callout strong{
+  color:var(--white);
+}
+.callout p{
+  color:var(--gray-l);
+  font-size:13px;
+  line-height:1.6;
+}
+.mini .k{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  color:var(--gold);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.mini .v{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:1px;
+  line-height:1;
+  margin-bottom:6px;
+}
+.mini .n{
+  color:var(--gray-l);
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* revenue table */
+.table-wrap{
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.015);
+  overflow:auto;
+}
+table{
+  width:100%;
+  min-width:860px;
+  border-collapse:collapse;
+}
+th{
+  text-align:left;
+  padding:10px 12px;
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--gold);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.01);
+}
+td{
+  padding:12px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  vertical-align:top;
+}
+tr:last-child td{border-bottom:none}
+.y{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:1px;
+  line-height:1;
+}
+.ys{
+  margin-top:5px;
+  color:var(--gray);
+  font-size:11px;
+}
+.cellbox{
+  border:1px solid rgba(255,255,255,.06);
+  padding:10px;
+  min-height:94px;
+  background:rgba(255,255,255,.01);
+}
+.cellbox.cons{border-left:2px solid var(--amber)}
+.cellbox.base{border-left:2px solid var(--green)}
+.cellbox.agg{border-left:2px solid var(--blue)}
+.pill{
+  display:inline-block;
+  margin-bottom:8px;
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:3px 6px;
+  border:1px solid rgba(255,255,255,.10);
+  color:var(--gray-l);
+}
+.rev{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:24px;
+  line-height:1;
+  letter-spacing:1px;
+  margin-bottom:6px;
+}
+.cons .rev{color:var(--amber)}
+.base .rev{color:var(--green)}
+.agg .rev{color:var(--blue)}
+.cellnote{
+  color:var(--gray-l);
+  font-size:11px;
+  line-height:1.45;
+}
+
+/* bottom summary */
+.summary-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.summary-main{
+  border:1px solid var(--gold-d);
+  background:rgba(201,168,76,.04);
+  padding:16px;
+}
+.summary-main .k{
+  font-family:'Space Mono',monospace;
+  color:var(--gold);
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.summary-main .v{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:34px;
+  line-height:1.05;
+  letter-spacing:1px;
+}
+.summary-main .n{
+  margin-top:8px;
+  color:var(--gray-l);
+  font-size:12px;
+  line-height:1.55;
+}
+.summary-side{
+  background:rgba(255,255,255,.015);
+  border:1px solid rgba(255,255,255,.06);
+  padding:16px;
+}
+.summary-side .k{
+  font-family:'Space Mono',monospace;
+  color:var(--gold);
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.summary-side ul{
+  padding-left:18px;
+  color:var(--gray-l);
+  font-size:12px;
+  line-height:1.55;
+}
+.summary-side li{margin:4px 0}
+
+.foot{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.05);
+  color:var(--gray);
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  line-height:1.7;
+  letter-spacing:.5px;
+}
+
+/* responsive */
+@media (max-width:900px){
+  .stats4{grid-template-columns:1fr 1fr}
+  .acq{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr}
+  .proof-strip{grid-template-columns:1fr 1fr}
+  .proof-label{display:none}
+}
+@media (max-width:700px){
+  .container{padding:20px 14px 42px}
+  .brandline{font-size:38px;letter-spacing:4px}
+  .topnav{flex-direction:column;align-items:flex-start}
+  .stats4{grid-template-columns:1fr}
+  .proof-strip{grid-template-columns:1fr}
+  .momentum{flex-wrap:wrap}
+  .mom{min-width:48%;border-right:none;border-bottom:1px solid rgba(255,255,255,.05)}
+  .arrow{display:none}
+  .acq-meter{grid-template-columns:1fr 1fr;padding-top:60px}
+  .marker{left:75%}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+  <div class="container">
+
+    
+    <div class="topnav">
+      <div class="brand-text" aria-label="Document title">
+        <strong>STASHBOX</strong>
+        <span>Investor Projection Deck</span>
+      </div>
+      <div class="nav-links" role="tablist" aria-label="Version navigation">
+        <a class="primary" role="tab" aria-selected="true" href="https://elettro.github.io/investment/" target="_blank" rel="noopener">Investment Main</a>
+        <a role="tab" aria-selected="false" href="https://elettro.github.io/investment/alt/simple.html" target="_blank" rel="noopener">Simple Version</a>
+      </div>
+    </div>
+
+
+    <header class="header">
+      <div class="brandline">STASHBOX <span>REVENUE</span></div>
+      <div class="subtitle">Revised Feb 2026 · Investor bottom line · Paid growth scenario</div>
+      <p class="header-desc">
+        Single-page projection calibrated to recent Stashbox YouTube acceleration and current position.
+        Assumes consistent US-focused subscriber-growth ad spend of $3,000 to $6,000 per month.
+        Goal of this page is simple. Show what the brand can generate in Years 1 to 4.
+      </p>
+    </header>
+
+    <div class="divider"></div>
+
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-kicker">Current Position</div>
+        <div class="panel-title">What the model is anchored to today</div>
+        <p class="panel-desc">Your current channel baseline and last-28-day performance from recent screenshots.</p>
+      </div>
+      <div class="panel-b">
+        <div class="stats4">
+          <div class="stat">
+            <div class="label">Current subscribers</div>
+            <div class="val">~5.6K</div>
+            <div class="note">Realtime shown around 5,603 and profile shows ~5.59K.</div>
+          </div>
+          <div class="stat">
+            <div class="label">Last 28-day views</div>
+            <div class="val">69.9K</div>
+            <div class="note">Strong recent rise with visible momentum in analytics.</div>
+          </div>
+          <div class="stat">
+            <div class="label">Last 28-day watch time</div>
+            <div class="val">578.4h</div>
+            <div class="note">Supports improving long-form engagement signal.</div>
+          </div>
+          <div class="stat">
+            <div class="label">Ad spend assumption</div>
+            <div class="val">$3K–$6K/mo</div>
+            <div class="note">US audience growth campaigns run consistently.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-kicker">Proof of Acquisition Efficiency</div>
+        <div class="panel-title">Recent campaign results support elite subscriber acquisition economics</div>
+        <p class="panel-desc">These campaign outcomes materially improve the credibility of aggressive audience growth assumptions.</p>
+      </div>
+      <div class="panel-b">
+        <div class="proof-strip">
+          <div class="proof-label"><span>Actual<br>results</span></div>
+
+          <div class="proof">
+            <div class="video">Mr. Top Mi Up</div>
+            <div class="main">$114.99 spent</div>
+            <div class="subs">1,842 subs</div>
+            <div class="cps">$0.062 / sub</div>
+            <span class="badge green">Elite tier</span>
+          </div>
+
+          <div class="proof">
+            <div class="video">Help Jamaica Now</div>
+            <div class="main">$51.55 spent</div>
+            <div class="subs">1,147 subs</div>
+            <div class="cps">$0.045 / sub</div>
+            <span class="badge green">Elite tier</span>
+          </div>
+
+          <div class="proof">
+            <div class="video">Get Up Stand Up</div>
+            <div class="main">$59.98 spent</div>
+            <div class="subs">678 subs</div>
+            <div class="cps">$0.088 / sub</div>
+            <span class="badge amber">Strong</span>
+          </div>
+
+          <div class="proof">
+            <div class="video">Sweet Live (Inner Circle)</div>
+            <div class="main">$19.98 spent</div>
+            <div class="subs">504 subs</div>
+            <div class="cps">$0.040 / sub</div>
+            <span class="badge green">Elite tier</span>
+          </div>
+
+          <div class="proof avg">
+            <div class="video">Blended average (winners)</div>
+            <div class="main">$246.50 total spend</div>
+            <div class="subs">4,171 subs</div>
+            <div class="cps">$0.059 / sub</div>
+            <span class="badge green">5x–10x under common market CPS</span>
+          </div>
+        </div>
+
+        <div class="momentum">
+          <div class="mom">
+            <div class="num">+83%</div>
+            <div class="txt">Views growth vs previous 28 days</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="mom">
+            <div class="num">578.4h</div>
+            <div class="txt">Last 28-day watch time</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="mom">
+            <div class="num">4,566</div>
+            <div class="txt">Realtime views in last 48 hours</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="mom">
+            <div class="num">Compounding</div>
+            <div class="txt">Paid growth is feeding a stronger organic base</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-kicker">Acquisition Levels</div>
+        <div class="panel-title">Where Stashbox sits on subscriber acquisition efficiency</div>
+        <p class="panel-desc">Fundamental visual showing channel acquisition tiers and how Stashbox campaign winners map into the elite zone.</p>
+      </div>
+      <div class="panel-b">
+        <div class="acq">
+          <div class="acq-left">
+            <div class="acq-meter-top">
+              <span>Cost per subscriber bands</span>
+              <span>Lower is better</span>
+            </div>
+            <div class="acq-meter">
+              <div class="marker">
+                <div class="marker-tag">Stashbox winners<br>$0.040–$0.088</div>
+                <div class="marker-dot"></div>
+                <div class="marker-line"></div>
+              </div>
+
+              <div class="band b-poor">
+                <span>Weak</span>
+                <small>$1.50–$4.00</small>
+              </div>
+              <div class="band b-avg">
+                <span>Average</span>
+                <small>$0.75–$1.50</small>
+              </div>
+              <div class="band b-strong">
+                <span>Strong</span>
+                <small>$0.30–$0.75</small>
+              </div>
+              <div class="band b-elite">
+                <span>Elite</span>
+                <small>$0.10–$0.30</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="acq-right">
+            <div class="callout">
+              <p><strong>Investor implication.</strong> When subscriber acquisition stays this efficient, more budget turns into owned audience instead of being consumed by ad waste. This helps pull forward revenue from sponsorships, merch, affiliate sales, and partner deals.</p>
+            </div>
+            <div class="mini">
+              <div class="k">Credibility anchor</div>
+              <div class="v">Not one campaign</div>
+              <div class="n">Multiple campaigns in your screenshots came in under $0.10 CPS. That supports using a stronger growth model than a generic music-channel benchmark.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-kicker">Revenue Projection</div>
+        <div class="panel-title">What this YouTube brand can generate with consistent $3K–$6K monthly ad spend</div>
+        <p class="panel-desc">Gross brand revenue. Includes YouTube ads plus sponsorships, merch, affiliates, and direct brand deals driven by channel growth.</p>
+      </div>
+      <div class="panel-b">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:120px;">Year</th>
+                <th>Conservative</th>
+                <th>Base case</th>
+                <th>Aggressive</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="y">Year 1</div>
+                  <div class="ys">From current ~5.6K base</div>
+                </td>
+                <td>
+                  <div class="cellbox cons">
+                    <span class="pill">Slower conversion</span>
+                    <div class="rev">$90K–$180K</div>
+                    <div class="cellnote">Paid growth works. Monetization stack builds slower.</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="cellbox base">
+                    <span class="pill">Most likely</span>
+                    <div class="rev">$180K–$420K</div>
+                    <div class="cellnote">Current trajectory continues with consistent releases and promotions.</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="cellbox agg">
+                    <span class="pill">Breakout scenario</span>
+                    <div class="rev">$420K–$900K</div>
+                    <div class="cellnote">Strong compounding with sponsor conversion ramping fast.</div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><div class="y">Year 2</div></td>
+                <td><div class="cellbox cons"><span class="pill">Slower conversion</span><div class="rev">$180K–$350K</div><div class="cellnote">Audience grows. Revenue mix stays ad-heavy.</div></div></td>
+                <td><div class="cellbox base"><span class="pill">Most likely</span><div class="rev">$420K–$900K</div><div class="cellnote">Catalog lift plus recurring sponsor and merch cycles.</div></div></td>
+                <td><div class="cellbox agg"><span class="pill">Breakout scenario</span><div class="rev">$900K–$1.8M</div><div class="cellnote">Higher output and stronger partnership velocity.</div></div></td>
+              </tr>
+
+              <tr>
+                <td><div class="y">Year 3</div></td>
+                <td><div class="cellbox cons"><span class="pill">Slower conversion</span><div class="rev">$300K–$550K</div><div class="cellnote">Real business. Moderate monetization depth.</div></div></td>
+                <td><div class="cellbox base"><span class="pill">Most likely</span><div class="rev">$750K–$1.6M</div><div class="cellnote">Mature revenue stack with stronger deal flow and catalog leverage.</div></div></td>
+                <td><div class="cellbox agg"><span class="pill">Breakout scenario</span><div class="rev">$1.6M–$3.0M</div><div class="cellnote">Scaled partnerships and premium integrations contribute heavily.</div></div></td>
+              </tr>
+
+              <tr>
+                <td><div class="y">Year 4</div></td>
+                <td><div class="cellbox cons"><span class="pill">Slower conversion</span><div class="rev">$400K–$750K</div><div class="cellnote">Meaningful outcome with slower scale.</div></div></td>
+                <td><div class="cellbox base"><span class="pill">Most likely</span><div class="rev">$1.1M–$2.4M</div><div class="cellnote">Sustained audience engine plus repeatable sponsor and merch systems.</div></div></td>
+                <td><div class="cellbox agg"><span class="pill">Breakout scenario</span><div class="rev">$2.4M–$4.5M</div><div class="cellnote">Scaled media brand economics and larger partner contracts.</div></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-kicker">Bottom Line</div>
+        <div class="panel-title">Direct answer for investor review</div>
+        <p class="panel-desc">If the question is "what will the brand generate", this is the answer first.</p>
+      </div>
+      <div class="panel-b">
+        <div class="summary-grid">
+          <div class="summary-main">
+            <div class="k">Base case answer</div>
+            <div class="v">Year 1 to Year 4 gross revenue<br>$180K–$420K → $1.1M–$2.4M</div>
+            <div class="n">Assumes consistent $3K–$6K monthly ad spend, continued content output, and monetization conversion across YouTube ads, sponsorships, merch, affiliate revenue, and direct deals.</div>
+          </div>
+          <div class="summary-side">
+            <div class="k">What changed in this revision</div>
+            <ul>
+              <li>Anchored to current ~5.6K subscribers and ~69.9K last-28-day views.</li>
+              <li>Calibrated with multiple recent sub-$0.10 CPS campaign results.</li>
+              <li>Kept ranges wide enough to stay serious and investor-safe.</li>
+              <li>Treated breakout upside as possible, not guaranteed.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot">
+          Source basis for calibration: your provided YouTube Studio screenshots and promotion rows showing spend and subscriber outcomes.
+          This is a planning projection and not a guarantee of performance.
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
