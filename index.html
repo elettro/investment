@@ -1,441 +1,656 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STASHBOX — YouTube Revenue Projection Grid</title>
-<link rel="stylesheet" href="stashbox.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stashbox Investment Outcome Grid</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050c1d;
+      --bg2: #08142c;
+      --panel: #0b1730;
+      --line: rgba(212, 175, 55, 0.55);
+      --line-soft: rgba(212, 175, 55, 0.22);
+      --gold: #d4af37;
+      --text: #e8eefc;
+      --muted: #98a6c8;
+
+      --low: #ff5252;
+      --mid: #f6b316;
+      --high: #10d07a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(12, 43, 117, 0.28), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(0, 70, 170, 0.16), transparent 60%),
+        linear-gradient(180deg, #020814 0%, #040b18 40%, #040912 100%);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 1px,
+          transparent 56px
+        );
+      opacity: 0.35;
+    }
+
+    .container {
+      max-width: 1120px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 8px 1fr;
+      gap: 18px;
+      align-items: start;
+      margin: 8px 0 24px;
+    }
+
+    .hero-bar {
+      background: linear-gradient(180deg, rgba(212,175,55,0.95), rgba(212,175,55,0.4));
+      border-radius: 2px;
+      min-height: 138px;
+      box-shadow: 0 0 18px rgba(212,175,55,0.22);
+    }
+
+    .brand {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 52px;
+      letter-spacing: 4px;
+      line-height: 0.9;
+      margin: 0;
+      color: #eef3ff;
+    }
+
+    .brand span {
+      color: var(--gold);
+    }
+
+    .eyebrow {
+      margin-top: 8px;
+      color: var(--gold);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    .desc {
+      margin-top: 14px;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(212,175,55,0.75), rgba(212,175,55,0.06));
+      margin: 18px 0 18px;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      color: #dfe8ff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .section-sub {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .grid-wrapper {
+      width: 100%;
+    }
+
+    .col-headers {
+      display: grid;
+      grid-template-columns: 130px repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: stretch;
+    }
+
+    .col-header-empty {
+      min-height: 72px;
+    }
+
+    .col-header {
+      border: 1px solid var(--line);
+      background: rgba(10, 20, 44, 0.75);
+      min-height: 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 0 1px rgba(212,175,55,0.08);
+    }
+
+    .col-header .top {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 22px;
+      letter-spacing: 1px;
+      line-height: 1;
+      color: #eef2ff;
+    }
+
+    .col-header .bottom {
+      margin-top: 6px;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .tier-row {
+      display: grid;
+      grid-template-columns: 130px repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: stretch;
+    }
+
+    .tier-label {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(11, 19, 38, 0.75);
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 108px;
+    }
+
+    .tier-name {
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 4px;
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .tier-desc {
+      color: var(--muted);
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .tier-low .tier-label {
+      border-color: rgba(255, 82, 82, 0.35);
+      background: linear-gradient(180deg, rgba(40,10,20,0.65), rgba(22,9,16,0.65));
+      box-shadow: inset 0 -2px 0 rgba(255, 82, 82, 0.65);
+    }
+    .tier-low .tier-name { color: var(--low); }
+
+    .tier-mid .tier-label {
+      border-color: rgba(246, 179, 22, 0.35);
+      background: linear-gradient(180deg, rgba(34,25,6,0.60), rgba(22,17,7,0.60));
+      box-shadow: inset 0 -2px 0 rgba(246, 179, 22, 0.65);
+    }
+    .tier-mid .tier-name { color: var(--mid); }
+
+    .tier-high .tier-label {
+      border-color: rgba(16, 208, 122, 0.35);
+      background: linear-gradient(180deg, rgba(7,30,22,0.62), rgba(5,23,18,0.62));
+      box-shadow: inset 0 -2px 0 rgba(16, 208, 122, 0.75);
+    }
+    .tier-high .tier-name { color: var(--high); }
+
+    .rev-cell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(11, 20, 40, 0.78), rgba(8, 15, 32, 0.80));
+      min-height: 108px;
+      padding: 12px 14px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .tier-low .rev-cell {
+      border-color: rgba(255, 82, 82, 0.22);
+      box-shadow: inset 0 -2px 0 rgba(255,82,82,0.75);
+    }
+
+    .tier-mid .rev-cell {
+      border-color: rgba(246, 179, 22, 0.22);
+      box-shadow: inset 0 -2px 0 rgba(246,179,22,0.85);
+    }
+
+    .tier-high .rev-cell {
+      border-color: rgba(16, 208, 122, 0.22);
+      box-shadow: inset 0 -2px 0 rgba(16,208,122,0.9);
+    }
+
+    .cell-kicker {
+      color: #93a0bf;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .cell-value {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 34px;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin: 6px 0 2px;
+      color: #f2f6ff;
+      white-space: nowrap;
+    }
+
+    .tier-low .cell-value { color: var(--low); }
+    .tier-mid .cell-value { color: var(--mid); }
+    .tier-high .cell-value { color: var(--high); }
+
+    .cell-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      min-height: 28px;
+    }
+
+    .range-bar {
+      margin-top: 8px;
+      height: 3px;
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      border-radius: 3px;
+    }
+
+    .range-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .tier-low .range-fill { background: var(--low); }
+    .tier-mid .range-fill { background: var(--mid); }
+    .tier-high .range-fill { background: var(--high); }
+
+    .sweet-spot {
+      margin: 2px 0 8px;
+      border: 1px dashed rgba(212,175,55,0.22);
+      background: rgba(9,16,31,0.55);
+      color: rgba(212,175,55,0.85);
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 8px 10px;
+    }
+
+    .footnote {
+      margin-top: 14px;
+      color: #91a2c5;
+      font-size: 12px;
+      line-height: 1.6;
+      border-top: 1px solid rgba(212,175,55,0.10);
+      padding-top: 12px;
+    }
+
+    .footnote strong {
+      color: #dce7ff;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .container {
+        max-width: 100%;
+        padding: 22px 14px 36px;
+      }
+
+      .brand {
+        font-size: 42px;
+      }
+
+      .col-headers,
+      .tier-row {
+        grid-template-columns: 92px repeat(4, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .col-header {
+        min-height: 62px;
+      }
+
+      .col-header .top {
+        font-size: 18px;
+      }
+
+      .col-header .bottom {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+      }
+
+      .tier-label,
+      .rev-cell {
+        min-height: 96px;
+      }
+
+      .tier-name {
+        font-size: 22px;
+        letter-spacing: 3px;
+      }
+
+      .tier-desc {
+        font-size: 9px;
+      }
+
+      .cell-value {
+        font-size: 24px;
+      }
+
+      .cell-kicker {
+        font-size: 8px;
+      }
+
+      .cell-note {
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        grid-template-columns: 5px 1fr;
+        gap: 12px;
+      }
+
+      .hero-bar {
+        min-height: 124px;
+      }
+
+      .brand {
+        font-size: 34px;
+        letter-spacing: 3px;
+      }
+
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+      }
+
+      .desc {
+        font-size: 12px;
+      }
+
+      .col-headers,
+      .tier-row {
+        grid-template-columns: 78px repeat(4, minmax(0, 1fr));
+        gap: 4px;
+      }
+
+      .col-header-empty {
+        min-height: 56px;
+      }
+
+      .col-header {
+        min-height: 56px;
+        padding: 4px;
+      }
+
+      .col-header .top {
+        font-size: 14px;
+      }
+
+      .col-header .bottom {
+        font-size: 7px;
+        letter-spacing: 1px;
+      }
+
+      .tier-label,
+      .rev-cell {
+        min-height: 84px;
+        padding: 8px;
+      }
+
+      .tier-name {
+        font-size: 16px;
+        letter-spacing: 2px;
+        margin-bottom: 4px;
+      }
+
+      .tier-desc {
+        font-size: 7px;
+        line-height: 1.3;
+      }
+
+      .cell-kicker {
+        font-size: 7px;
+      }
+
+      .cell-value {
+        font-size: 16px;
+        margin: 4px 0 2px;
+      }
+
+      .cell-note {
+        font-size: 8px;
+        min-height: 20px;
+      }
+
+      .sweet-spot {
+        font-size: 8px;
+        letter-spacing: 1px;
+        padding: 6px 8px;
+      }
+
+      .footnote {
+        font-size: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-bar"></div>
+      <div>
+        <h1 class="brand">STASH<span>BOX</span></h1>
+        <div class="eyebrow">Investment Outcome Grid · Multi-Year Projection</div>
+        <div class="desc">
+          Illustrative company-level ranges by execution tier and time horizon.
+          Use this section to present one metric consistently across all cells such as cumulative EBITDA,
+          company value, or investor return outcome.
+        </div>
+      </div>
+    </div>
 
-<div class="container">
+    <div class="divider"></div>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="brand">STASH<span>BOX</span></div>
-    <div class="subtitle">YouTube Ad Revenue · Monthly Projection Grid</div>
-    <p class="header-desc">
-      Music video channel profile · Reggae-leaning audience · Mixed geographies · Monetized channel · Long-form content.
-      Figures represent <em>monthly</em> ad revenue only — no streaming, merch, or brand deals included.
+    <h2 class="section-title">Cumulative EBITDA Outlook</h2>
+    <p class="section-sub">
+      Left side shows execution tiers. Top shows time horizon. Keep one metric across the full grid.
     </p>
-  </div>
 
-  <div class="divider"></div>
+    <div class="grid-wrapper">
+      <div class="col-headers">
+        <div class="col-header-empty"></div>
 
-  <!-- Grid -->
-  <div class="grid-wrapper">
+        <div class="col-header">
+          <div class="top">2Y</div>
+          <div class="bottom">2 years</div>
+        </div>
 
-    <!-- Column headers -->
-    <div class="col-headers">
-      <div class="col-header-empty"></div>
-      <div class="col-header">
-        <div class="sub-count">50K</div>
-        <div class="sub-label">subscribers</div>
+        <div class="col-header">
+          <div class="top">3Y</div>
+          <div class="bottom">3 years</div>
+        </div>
+
+        <div class="col-header">
+          <div class="top">5Y</div>
+          <div class="bottom">5 years</div>
+        </div>
+
+        <div class="col-header">
+          <div class="top">10Y</div>
+          <div class="bottom">10 years</div>
+        </div>
       </div>
-      <div class="col-header">
-        <div class="sub-count">100K</div>
-        <div class="sub-label">subscribers</div>
+
+      <div class="tier-row tier-low">
+        <div class="tier-label">
+          <div class="tier-name">LOW</div>
+          <div class="tier-desc">
+            Slower ramp<br>
+            Limited scale<br>
+            Capital constrained
+          </div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$0 to $25K</div>
+          <div class="cell-note">Early build phase. Heavy setup and testing.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 14%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$50K to $150K</div>
+          <div class="cell-note">Capital efficient but slower scaling path.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 24%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$400K to $1M</div>
+          <div class="cell-note">Steady compounding with limited team expansion.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 42%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$2M to $6M</div>
+          <div class="cell-note">Long-tail growth with controlled overhead.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 56%"></div></div>
+        </div>
       </div>
-      <div class="col-header">
-        <div class="sub-count">200K</div>
-        <div class="sub-label">subscribers</div>
+
+      <div class="sweet-spot">Baseline execution · repeatable systems · partner leverage</div>
+
+      <div class="tier-row tier-mid">
+        <div class="tier-label">
+          <div class="tier-name">MID</div>
+          <div class="tier-desc">
+            Healthy growth<br>
+            Repeatable engine<br>
+            Team support
+          </div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$50K to $250K</div>
+          <div class="cell-note">Execution starts to normalize across channels.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 28%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$500K to $2M</div>
+          <div class="cell-note">Partner deals and merch layers improve cash flow.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 48%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$2M to $8M</div>
+          <div class="cell-note">Agency and enterprise work become major drivers.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 72%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$10M to $35M</div>
+          <div class="cell-note">Scaled IP, catalog, and recurring enterprise revenue.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 88%"></div></div>
+        </div>
       </div>
-      <div class="col-header">
-        <div class="sub-count">500K</div>
-        <div class="sub-label">subscribers</div>
-      </div>
-      <div class="col-header">
-        <div class="sub-count">1M</div>
-        <div class="sub-label">subscribers</div>
+
+      <div class="tier-row tier-high">
+        <div class="tier-label">
+          <div class="tier-name">HIGH</div>
+          <div class="tier-desc">
+            Strong hits<br>
+            Enterprise wins<br>
+            Audience scale
+          </div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$150K to $500K</div>
+          <div class="cell-note">Early acceleration from high-conversion collaborations.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 38%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$1.5M to $4M</div>
+          <div class="cell-note">Hits plus partner pipelines create fast revenue stacking.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 62%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$6M to $15M</div>
+          <div class="cell-note">Scaled content engine plus enterprise contracts.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 90%"></div></div>
+        </div>
+
+        <div class="rev-cell">
+          <div class="cell-kicker">Cumulative EBITDA</div>
+          <div class="cell-value">$25M to $75M</div>
+          <div class="cell-note">Platform-level growth with broad recurring revenue mix.</div>
+          <div class="range-bar"><div class="range-fill" style="width: 100%"></div></div>
+        </div>
       </div>
     </div>
 
-    <!-- LOW tier -->
-    <div class="tier-row tier-low">
-      <div class="tier-label">
-        <span class="tier-name">LOW</span>
-        <span class="tier-desc">Inconsistent<br>views · Weak<br>RPM</span>
-      </div>
-      <div class="rev-cell" data-tier="low" data-subs="50K" data-context="Monetized but irregular. Views aren't compounding. Typical for channels in early growth phase or with inconsistent upload schedules.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$300</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$1,500</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="10%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="low" data-subs="100K" data-context="Channel has reach but views per video are underperforming. RPM compressed by non-monetizable geographies or low watch time.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$800</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$3,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="14%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="low" data-subs="200K" data-context="200K channel under-monetizing — typically weak geographic mix or content not driving repeat views.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$1,500</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$6,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="20%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="low" data-subs="500K" data-context="At 500K this range reflects a channel with subscriber scale but poor view velocity — the audience isn't returning.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$4,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$15,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="30%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="low" data-subs="1M" data-context="1M subs in the low tier is a cautionary tale — scale without engagement. Still $8K–$30K/mo is a real business, just not the ceiling.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$8,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$30,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="40%"></div></div>
-      </div>
-    </div>
-
-    <!-- MID tier -->
-    <div class="sweet-spot-note">↑ &nbsp; BASELINE &nbsp; · &nbsp; TARGET FLOOR &nbsp; · &nbsp; CEILING ↓</div>
-
-    <div class="tier-row tier-mid">
-      <div class="tier-label">
-        <span class="tier-name">MID</span>
-        <span class="tier-desc">Healthy<br>cadence ·<br>Consistent<br>growth</span>
-      </div>
-      <div class="rev-cell" data-tier="mid" data-subs="50K" data-context="Good content rhythm, decent watch time, mixed geography. This is the realistic Stashbox target for an active 50K channel.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$1,500</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$6,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="28%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="mid" data-subs="100K" data-context="100K channel with solid upload cadence and audience retention. $3K–$12K/mo is achievable and sustainable.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$3,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$12,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="42%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="mid" data-subs="200K" data-context="Strong $6K–$25K range. At this level, production quality and upload consistency are the primary variables.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$6,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$25,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="55%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="mid" data-subs="500K" data-context="$15K–$60K/month is serious money. This is where YouTube alone becomes a meaningful revenue stream, not a bonus.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$15,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$60,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="68%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="mid" data-subs="1M" data-context="$30K–$120K/month from ads alone at 1M subs. This is the base case target for Stashbox at scale — before streaming, merch, or brand deals.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$30,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$120,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="78%"></div></div>
-      </div>
-    </div>
-
-    <!-- HIGH tier -->
-    <div class="tier-row tier-high">
-      <div class="tier-label">
-        <span class="tier-name">HIGH</span>
-        <span class="tier-desc">Strong view<br>engine · High<br>watch time ·<br>Repeat audience</span>
-      </div>
-      <div class="rev-cell" data-tier="high" data-subs="50K" data-context="50K channel punching above its weight — viral content, high US/UK/AU audience mix, exceptional watch time.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$6,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$15,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="45%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="high" data-subs="100K" data-context="A 100K channel generating $12K–$30K/mo has exceptional content performance. RPM likely $8–$15 range, strong US audience.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$12,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$30,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="60%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="high" data-subs="200K" data-context="$25K–$60K/mo from 200K subs is elite tier performance. Content is generating millions of views with strong retention.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$25,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$60,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="74%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="high" data-subs="500K" data-context="$60K–$150K/month at 500K is top-of-class. The channel has strong algorithm support and high-RPM content.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$60,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$150,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="88%"></div></div>
-      </div>
-      <div class="rev-cell" data-tier="high" data-subs="1M" data-context="$120K–$300K/month from YouTube ads alone. This is a media company. At this level the catalog alone generates passive income at scale.">
-        <div class="hover-glow"></div>
-        <div class="range-low">$120,000</div>
-        <div class="range-sep">— to —</div>
-        <div class="range-high">$300,000</div>
-        <div class="range-bar"><div class="range-bar-fill" style="width:0%" data-width="100%"></div></div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Reality check cards -->
-  <div class="reality-check">
-    <div class="reality-card">
-      <div class="rc-title">⚡ Critical Reality</div>
-      <p class="rc-text">
-        <strong>Subscriber count does not guarantee revenue.</strong>
-        Views drive revenue. A 50K channel with a heavy view engine
-        can outperform a 200K channel with a stale audience.
-        The goal is to build <strong>view velocity</strong>, not just a follower count.
-      </p>
-    </div>
-    <div class="reality-card">
-      <div class="rc-title">🎯 The Stashbox Target</div>
-      <p class="rc-text">
-        Consistent content cadence + paid subscriber acquisition + AI-managed release campaigns
-        = <strong>Mid tier at minimum</strong>. The paid ads model is specifically designed
-        to build the kind of engaged, returning audience that pushes channels from Low → Mid → High.
-      </p>
+    <div class="footnote">
+      <strong>Note:</strong> This section is centered and width-controlled to match the same investor-grid style.
+      Replace values with your final conservative, realistic, and aggressive ranges.
     </div>
   </div>
-
-  <div class="key-stat">
-    <div class="ks-icon">📊</div>
-    <div class="ks-text">
-      <strong>ADS ONLY · GRID ONE OF TWO</strong><br>
-      This grid shows YouTube ad revenue in isolation. Grid Two adds Spotify streaming + merch + brand deals —
-      the full Stashbox ecosystem model. At scale, YouTube ads typically represent
-      <strong>40–60% of total platform revenue</strong>. The complete picture is significantly larger.
-    </div>
-  </div>
-
-  <div class="footnote">
-    STASHBOX MEDIA · ILLUSTRATIVE PROJECTIONS · ADS ONLY · ENTERTAINMENT/MUSIC CATEGORY · MIXED GEOGRAPHIES ·
-    RPM ASSUMPTIONS $3–$15 RANGE · ACTUAL RESULTS VARY BY CONTENT TYPE, AUDIENCE GEOGRAPHY, AND VIEW VELOCITY ·
-    AT-RISK CAPITAL · NO GUARANTEED RETURN
-  </div>
-
-</div>
-
-<!-- Tooltip -->
-<div class="tooltip" id="tooltip"></div>
-
-<script>
-  // Animate bars on load
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      document.querySelectorAll('.range-bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.width;
-      });
-    }, 400);
-  });
-
-  // Tooltip behavior
-  const tooltip = document.getElementById('tooltip');
-
-  const tierLabels = {
-    low:  'LOW TIER — Weak View Velocity',
-    mid:  'MID TIER — Healthy Cadence',
-    high: 'HIGH TIER — Strong View Engine'
-  };
-
-  document.querySelectorAll('.rev-cell').forEach(cell => {
-    cell.addEventListener('mouseenter', (e) => {
-      const tier = cell.dataset.tier;
-      const subs = cell.dataset.subs;
-      const ctx  = cell.dataset.context;
-      tooltip.innerHTML = `<strong>${tierLabels[tier]} · ${subs} SUBS</strong>${ctx}`;
-      tooltip.classList.add('visible');
-    });
-
-    cell.addEventListener('mousemove', (e) => {
-      const x = e.clientX + 16;
-      const y = e.clientY - 8;
-      const tw = tooltip.offsetWidth;
-      const th = tooltip.offsetHeight;
-      tooltip.style.left = (x + tw > window.innerWidth ? x - tw - 32 : x) + 'px';
-      tooltip.style.top  = (y + th > window.innerHeight ? y - th : y) + 'px';
-    });
-
-    cell.addEventListener('mouseleave', () => {
-      tooltip.classList.remove('visible');
-    });
-  });
-</script>
-
-<!-- SECTION: Multi-Year Outcome Grid -->
-<div class="divider"></div>
-
-<div class="header compact-header">
-  <div class="brand">STASH<span>BOX</span></div>
-  <div class="subtitle">Investment Outcome Grid · Multi-Year Projection View</div>
-  <p class="header-desc">
-    Illustrative company-level outcome ranges by execution tier and time horizon. Use this as a visual summary
-    for investor discussions after the core revenue model.
-  </p>
-</div>
-
-<div class="grid-wrapper grid-4col">
-
-  <!-- Column headers -->
-  <div class="col-headers col-headers-4">
-    <div class="col-header-empty"></div>
-    <div class="col-header">
-      <div class="sub-count">2Y</div>
-      <div class="sub-label">2 years</div>
-    </div>
-    <div class="col-header">
-      <div class="sub-count">3Y</div>
-      <div class="sub-label">3 years</div>
-    </div>
-    <div class="col-header">
-      <div class="sub-count">5Y</div>
-      <div class="sub-label">5 years</div>
-    </div>
-    <div class="col-header">
-      <div class="sub-count">10Y</div>
-      <div class="sub-label">10 years</div>
-    </div>
-  </div>
-
-  <!-- LOW -->
-  <div class="tier-row tier-row-4 tier-low">
-    <div class="tier-label">
-      <span class="tier-name">LOW</span>
-      <span class="tier-desc">Slow ramp<br>limited scale<br>capital tight</span>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$50K–$200K</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:18%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$100K–$500K</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:28%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$400K–$1.5M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:42%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$1M–$4M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:55%"></div></div>
-    </div>
-  </div>
-
-  <!-- MID -->
-  <div class="sweet-spot-note">↑ BASELINE EXECUTION · COMPOUNDING SYSTEMS · PARTNER LEVERAGE ↓</div>
-
-  <div class="tier-row tier-row-4 tier-mid">
-    <div class="tier-label">
-      <span class="tier-name">MID</span>
-      <span class="tier-desc">Healthy growth<br>repeatable engine<br>team support</span>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$150K–$600K</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:32%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$500K–$2M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:46%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$2M–$8M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:68%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$8M–$25M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:84%"></div></div>
-    </div>
-  </div>
-
-  <!-- HIGH -->
-  <div class="tier-row tier-row-4 tier-high">
-    <div class="tier-label">
-      <span class="tier-name">HIGH</span>
-      <span class="tier-desc">Strong hits<br>enterprise wins<br>audience scale</span>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$300K–$1M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:45%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$1M–$4M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:62%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$5M–$15M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:88%"></div></div>
-    </div>
-
-    <div class="rev-cell">
-      <div class="hover-glow"></div>
-      <div class="range-low">Outcome range</div>
-      <div class="range-sep">— to —</div>
-      <div class="range-high">$20M–$75M</div>
-      <div class="range-bar"><div class="range-bar-fill" style="width:100%"></div></div>
-    </div>
-  </div>
-</div>
-
-<div class="key-stat">
-  <div class="ks-icon">📈</div>
-  <div class="ks-text">
-    <strong>MULTI-YEAR OUTCOME GRID</strong><br>
-    Use this section to summarize cumulative EBITDA, company value range, or investor return scenarios.
-    Keep the label text consistent so each version of the page stays investor-readable.
-  </div>
-</div>
-
-
-  
 </body>
 </html>
