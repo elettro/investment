@@ -416,3 +416,68 @@ body::before {
   .rev-cell .range-low { font-size: 9px; }
   .reality-check { grid-template-columns: 1fr; }
 }
+
+
+
+/* ============================================================
+   STASHBOX — 4 Column Projection Grid Extension
+   For sections with LOW / MID / HIGH rows and 2Y / 3Y / 5Y / 10Y columns
+   ============================================================ */
+
+.compact-header {
+  margin-bottom: 28px;
+}
+
+.col-headers-4 {
+  grid-template-columns: 120px repeat(4, 1fr);
+}
+
+.tier-row-4 {
+  grid-template-columns: 120px repeat(4, 1fr);
+}
+
+/* Slightly roomier cell text for longer ranges */
+.grid-4col .rev-cell .range-high {
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.grid-4col .rev-cell .range-low {
+  font-size: 10px;
+}
+
+/* Optional tighter spacing on mobile */
+@media (max-width: 700px) {
+  .col-headers-4,
+  .tier-row-4 {
+    grid-template-columns: 86px repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .grid-4col .rev-cell {
+    padding: 10px 8px;
+  }
+
+  .grid-4col .rev-cell .range-high {
+    font-size: 12px;
+  }
+
+  .grid-4col .rev-cell .range-low {
+    font-size: 8px;
+  }
+
+  .grid-4col .rev-cell .range-sep {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .tier-label .tier-name {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .tier-label .tier-desc {
+    font-size: 8px;
+    line-height: 1.2;
+  }
+}
