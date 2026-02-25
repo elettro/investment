@@ -1224,3 +1224,155 @@ body::before {
     align-items: flex-start;
   }
 }
+
+
+/* =========================
+   SECTION 2: Annual Revenue Outlook (2 stacked 4-col grids)
+   ========================= */
+
+.sbx-outlook-section {
+  margin-top: 24px;
+}
+
+.sbx-outlook-section .compact-header {
+  margin-bottom: 16px;
+}
+
+.sbx-grid-block {
+  margin: 16px 0 22px;
+}
+
+.sbx-grid-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  background: rgba(7, 13, 26, 0.55);
+}
+
+.sbx-grid-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #eef3ff;
+  line-height: 1;
+}
+
+.sbx-grid-metric {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(212, 175, 55, 0.9);
+  text-transform: uppercase;
+}
+
+.sbx-grid-4 {
+  width: 100%;
+  max-width: 100%;
+}
+
+.sbx-col-headers-4 {
+  display: grid;
+  grid-template-columns: 120px repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.sbx-tier-row-4 {
+  display: grid;
+  grid-template-columns: 120px repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Keep same look and proportions as first section */
+.sbx-grid-4 .rev-cell {
+  min-height: 92px;
+}
+
+.sbx-grid-4 .range-high {
+  font-size: 20px;
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+}
+
+.sbx-grid-4 .range-low {
+  font-size: 10px;
+}
+
+.sbx-grid-4 .range-sep {
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sbx-col-headers-4,
+  .sbx-tier-row-4 {
+    grid-template-columns: 96px repeat(4, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .sbx-grid-title {
+    font-size: 20px;
+  }
+
+  .sbx-grid-metric {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .sbx-grid-4 .range-high {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sbx-grid-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .sbx-col-headers-4,
+  .sbx-tier-row-4 {
+    grid-template-columns: 80px repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .sbx-grid-4 .rev-cell {
+    min-height: 76px;
+    padding: 8px;
+  }
+
+  .sbx-grid-4 .range-high {
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+
+  .sbx-grid-4 .range-low {
+    font-size: 7px;
+  }
+
+  .sbx-grid-4 .range-sep {
+    font-size: 7px;
+    letter-spacing: 0.5px;
+  }
+
+  .sbx-tier-row-4 .tier-label {
+    min-height: 76px;
+  }
+
+  .sbx-tier-row-4 .tier-name {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .sbx-tier-row-4 .tier-desc {
+    font-size: 7px;
+    line-height: 1.2;
+  }
+}
